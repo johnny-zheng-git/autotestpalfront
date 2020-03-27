@@ -1,15 +1,31 @@
 <template>
-  <div class="root"></div>
+  <div class="root" >
+    <p v-for="(key,value) in a" :key='value'>{{key}}================={{value}}</p>
+    <!-- <button @click="handleOpen">test</button> -->
+  </div>
 </template>
 
 <script>
 // import Header from './Header.vue';
 // import Axios from 'axios';
-
+import axios from "axios";
 export default {
+  data() {
+    return {
+      a: [1,2]
+    };
+  },
+
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+    handleOpen() {
+      axios
+        .get("www.baidu.com")
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
@@ -19,14 +35,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .root {
-  height:100%;width:100%;
-/*width: 100%;*/
-border: 1px solid green;
-position:fixed;
-// background-color: chartreuse;
+  height: 100%;
+  width: 100%;
+  /*width: 100%;*/
+  border: 1px solid green;
+  position: fixed;
+  // background-color: chartreuse;
 }
 
 .el-header,

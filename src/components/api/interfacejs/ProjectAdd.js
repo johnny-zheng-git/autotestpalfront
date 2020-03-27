@@ -2,7 +2,7 @@
 import post from '../../../axios/post'
 import router from '../../../router'
 
-function login(json_data,error){
+function add(json_data,error){
     // console.log("=============login()==================")
     var url = '/project/add'
     post(url,json_data).then(res => {
@@ -16,4 +16,4 @@ function login(json_data,error){
       });
 
 }
-export default login
+export default add

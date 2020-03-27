@@ -1,4 +1,6 @@
 <template>
+<div>
+  <h2>新建项目</h2>
   <el-form
     :model="ruleForm"
     :rules="rules"
@@ -21,6 +23,7 @@
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
   </el-form>
+</div>
 </template>
 <script>
 import projectadd from './../api/interfacejs/ProjectAdd'
@@ -42,7 +45,7 @@ export default {
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         project_desc: [
-          { required: true, message: "请输入项目版本号", trigger: "blur" }
+          { required: true, message: "请输入项目描述", trigger: "blur" }
           // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
@@ -67,4 +70,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 // div{background: brown;}
+h2{
+  text-align: center;
+  color: #606266;
+}
 </style>

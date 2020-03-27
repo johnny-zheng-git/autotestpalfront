@@ -51,13 +51,13 @@ export default {
     // border: 2px solid rgb(89, 6, 245);
     // background: forestgreen;
     .myheader{
-      position: fixed;
+      position: absolute;
       width: 100%;
       height: 60px;
       left: 0px;
       top: 0px;
       left: 0px;
-      z-index:999999;
+      z-index:1;
       // background-color:"#545c34";
       border: 1px solid #545c64;
     }

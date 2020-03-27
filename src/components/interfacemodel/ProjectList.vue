@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline" v-show="this.showlist">
+    <!-- inline 行内表单 -->
+    <el-form :inline="true" :model="formInline" class="demo-form-inline">  
       <el-form-item label="项目名称">
         <el-input
           v-model="formInline.project_name"
@@ -16,40 +17,47 @@
         <el-button type="primary" @click="add">新增</el-button>
       </el-form-item>
     </el-form>
-    <div v-show="this.showlist">
-      <el-table
-        :data="tableData.slice((currentPage - 1) * pagesize,currentPage * pagesize)"
-        border
-        style="width: 100%"
-        v-loading="loading"
-      >
-        <el-table-column
-          sortable
-          fixed
-          type="index"
-          :index="this.indexStartNum+(currentPage-1)*pagesize"
-          label="序号"
-          width="60"
-        ></el-table-column>
 
-        <el-table-column sortable prop="project_name" label="项目名称" width="115"></el-table-column>
-        <el-table-column sortable prop="user_name" label="创建人" width="100"></el-table-column>
-        <el-table-column prop="project_v" label="版本号" width="76"></el-table-column>
-        <el-table-column sortable prop="project_state" label="项目状态" width="115"></el-table-column>
-        <el-table-column sortable prop="create_time" label="创建日期" width="160"></el-table-column>
-        <el-table-column sortable prop="updata_time" label="修改日期" width="160"></el-table-column>
-        <el-table-column sortable prop="project_id" label="项目ID" width="100"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="120">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button>
-            <el-button type="text" size="small" @click="delete_(scope.row.project_id)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <v-pagintions ref="pag"></v-pagintions>
-    </div>
-    <router-view v-show="!this.showlist"></router-view>
+    <el-table
+      :data="tableData.slice((currentPage - 1) * pagesize,currentPage * pagesize)"
+      border
+      style="width: 100%"
+      v-loading="loading"
+    >
+      <el-table-column
+        sortable
+        fixed
+        type="index"
+        :index="this.indexStartNum+(currentPage-1)*pagesize"
+        label="序号"
+        width="60"
+        :fit="true"
+      ></el-table-column>
+
+      <el-table-column sortable prop="project_name" label="项目名称" width="115"></el-table-column>
+      <el-table-column sortable prop="user_name" label="创建人" width="100"></el-table-column>
+      <el-table-column prop="project_v" label="版本号" width="76"></el-table-column>
+      <el-table-column prop="project_desc" label="项目描述" width="160" show-overflow-tooltip="true"></el-table-column>
+      <el-table-column sortable prop="project_state" label="项目状态" width="115"></el-table-column>
+      <el-table-column sortable prop="create_time" label="创建日期" width="160"></el-table-column>
+      <el-table-column sortable prop="updata_time" label="修改日期" width="160"></el-table-column>
+      <el-table-column sortable prop="project_id" label="项目ID" width="100"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="120">
+        <template slot-scope="scope">
+          <el-button @click="ClickTest(scope.row)" type="text" size="small">测试</el-button>
+          <el-button @click="ClickUpdata(scope.row)" type="text" size="small">修改</el-button>
+          <el-button
+            type="text"
+            size="small"
+            :plain="true"
+            @click="delete_(scope.row.project_id)"
+          >删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <v-pagintions ref="pag"></v-pagintions>
   </div>
+  <!-- <router-view v-show="!this.showlist"></router-view> -->
 </template>
 <script>
 import pagintions from "./../publicmodel/Pagination";
@@ -99,7 +107,7 @@ export default {
       })
         .then(() => {
           /** 延时调用查询刷新页面 */
-          projectdelete({ project_id: project_id });
+          projectdelete({ project_id: project_id }, this.$message);
           this.loading = true;
           function sleep(time) {
             return new Promise(resolve => setTimeout(resolve, time));
@@ -108,10 +116,6 @@ export default {
             // 这里写sleep之后需要去做的事情
             this.onSubmit();
             this.loading = false;
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
           });
         })
         .catch(() => {
@@ -120,6 +124,24 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    ClickUpdata(row) {
+      this.showlist = false;
+      sessionStorage.setItem("project_name", row.project_name);
+      sessionStorage.setItem("project_v", row.project_v);
+      sessionStorage.setItem("project_id", row.project_id);
+      sessionStorage.setItem("project_desc", row.project_desc);
+      sessionStorage.setItem("project_state", row.project_state);
+      // alert(sessionStorage.getItem('project_state'))
+      this.$router.push({ name: "updataproject" });
+    },
+    ClickTest(row) {
+      // alert(sessionStorage.getItem('project_state'))
+      console.log("cliscktest:",row.project_id)
+      this.$router.push({
+        name: "hostlist",
+        query: { project_id:row.project_id }
+      });
     }
   },
   mounted() {

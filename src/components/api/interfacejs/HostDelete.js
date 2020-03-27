@@ -2,19 +2,21 @@
 import post from '../../../axios/post'
 // import router from '../../router'
 
-function projectdelete(json_data,message) {
+function HostDelete(json_data,message) {
     // console.log("=============login()==================")
-    var url = '/project/delete'
+    var url = '/project/hostdelete'
+    console.log('======================',json_data)
     return post(url, json_data).then(res => {
         if (res.data.code == 0) {
+            // alert("test")
             message({
                 type: "success",
                 message: "删除成功!"
               });
         } else {
-            message.error(res.data.message);
+            message.error("服务器请求失败");
         }
     })
 
 }
-export default projectdelete
+export default HostDelete

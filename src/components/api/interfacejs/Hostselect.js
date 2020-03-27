@@ -2,12 +2,12 @@
 import post from '../../../axios/post'
 // import router from '../../router'
 
-function projectselect(json_data) {
+function hostselect(json_data) {
     // console.log("=============login()==================")
-    var url = '/project/select'
+    var url = '/project/hostselect'
     return post(url, json_data).then(res => {
         if (res.data.code == 0) {
-            // console.log('res:',res.data)
+            // console.log('res:',res.data.host_list)
             return res
         } else {
             return res
@@ -15,4 +15,4 @@ function projectselect(json_data) {
     })
 
 }
-export default projectselect
+export default hostselect

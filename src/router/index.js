@@ -11,6 +11,9 @@ import InterfaceTest from './../components/interfacemodel/InterfaceTest'
 import About from './../components/About'
 import ProjectList from './../components/interfacemodel/ProjectList'
 import AddProject from './../components/interfacemodel/AddProject'
+import UpdataProject from './../components/interfacemodel/updataProject'
+import TestApiList from './../components/interfacemodel/TestApiList'
+import HostList from './../components/interfacemodel/HostList'
 
 
 Vue.use(VueRouter)
@@ -33,6 +36,19 @@ const routes = [
           { path: 'about', component: About, name: 'about', meta: { auth: true } },
           { path: 'projectlist', component: ProjectList, name: 'projectlist', meta: { auth: true } },
           { path: 'addproject', component: AddProject, name: "addproject", meta: { auth: true } },
+          { path: 'updataproject', component: UpdataProject, name: "updataproject", meta: { auth: true } },
+          {
+            path: 'testapilist',
+            redirect: '/home/interfacetest/testapilist/hostlist',
+            component: TestApiList, name: "testapilist", meta: { auth: true },
+            children: [
+              {
+                path: 'hostlist',
+                component: HostList, name: 'hostlist', meta: { auth: true }
+              },
+
+            ]
+          },
         ]
       },
     ]
@@ -49,9 +65,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
 router.beforeEach((to, from, next) => {
-
   console.log("获取session里的state数据");
   //在页面加载时读取sessionStorage里的状态信息，若无store跳过
   if (sessionStorage.getItem("store")) {
@@ -66,17 +80,15 @@ router.beforeEach((to, from, next) => {
     sessionStorage.removeItem("store");
     console.log("清除session", sessionStorage);
   }
-
-
   //to.meta.auth 表示需要做登录健全
   //不需要的 可以直接next
   console.log('from:', from.path, '->to:', to.path)
-  const tocen = store.state.access_token
+  const token = store.state.access_token
   // console.log("==================>"+tocken+'<================')
   if (to.meta.auth) {
     //store.state.token 表示已经登录 可以直接next
     //没有登录 跳转到/login 并携带参数redirect 方便登录后直接跳转到to.path
-    if (tocen) {
+    if (token) {
       next();
     } else {
       next({
