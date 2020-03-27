@@ -68,15 +68,15 @@ export default {
   data() {
     return {
       sign: true,
-      project_id: "",
+      project_id: null,
       dialogVisible: false,
-      tableData: "",
+      tableData: null,
       ruleForm: {
-        host_name: "",
-        host_addr: "",
-        host_desc: "",
-        project_id: "",
-        host_id:""
+        host_name: null,
+        host_addr: null,
+        host_desc: null,
+        project_id: null,
+        host_id:null
       },
       rules: {
         host_name: [{ required: true, message: "请输入名称", trigger: "blur" }],

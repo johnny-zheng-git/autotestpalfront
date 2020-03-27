@@ -1,7 +1,7 @@
 import post from '../../../axios/post'
 // import router from '../../../router'
 function HostAdd(json_data, message) {
-    let url = '/project/hostadd'
+    var url = '/project/hostadd'
     return post(url, json_data).then(res => {
         console.log(json_data)
         if (res.data.code == 0) {
